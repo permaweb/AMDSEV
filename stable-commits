@@ -4,8 +4,8 @@
 
 # hypervisor commit
 KERNEL_GIT_URL="https://github.com/AMDESE/linux.git"
-KERNEL_HOST_BRANCH="snp-host-latest"
-KERNEL_GUEST_BRANCH="snp-guest-latest"
+KERNEL_HOST_BRANCH="snp-host-v15"
+KERNEL_GUEST_BRANCH="snp-guest-req-v3"
 
 # base/template kernel config (defaults to /boot/config-`uname -r`)
 #KERNEL_HOST_CONFIG_TEMPLATE=/path/to/kernel/config

@@ -136,6 +136,10 @@ build_kernel()
 			run_cmd ./scripts/config --enable MLXSW_SPECTRUM_DCB
 			run_cmd ./scripts/config --module MLXSW_MINIMAL
 			run_cmd ./scripts/config --module MLXFW
+			run_cmd ./scripts/config --enable CONFIG_CRYPTO_ECC
+			run_cmd ./scripts/config --enable CONFIG_CRYPTO_ECDH
+			run_cmd ./scripts/config --enable CONFIG_CRYPTO_ECDSA
+			run_cmd ./scripts/config --enable CONFIG_CGROUP_MISC
 
 			run_cmd echo $COMMIT >../../source-commit.kernel.$V
 		popd >/dev/null
@@ -169,7 +173,7 @@ build_install_ovmf()
 		GCCVERS="GCC5"
 	fi
 
-	BUILD_CMD="nice build -q --cmd-len=64436 -DDEBUG_ON_SERIAL_PORT=TRUE -n $(getconf _NPROCESSORS_ONLN) ${GCCVERS:+-t $GCCVERS} -a X64 -p OvmfPkg/OvmfPkgX64.dsc"
+	BUILD_CMD="nice build -q --cmd-len=64436 -DDEBUG_ON_SERIAL_PORT=TRUE -n $(getconf _NPROCESSORS_ONLN) ${GCCVERS:+-t $GCCVERS} -a X64 -p OvmfPkg/AmdSev/AmdSevX64.dsc"
 
 	# initialize git repo, or update existing remote to currently configured one
 	if [ -d ovmf ]; then
@@ -200,6 +204,7 @@ build_install_ovmf()
 		run_cmd cp -f Build/OvmfX64/DEBUG_$GCCVERS/FV/OVMF_CODE.fd $DEST
 		run_cmd cp -f Build/OvmfX64/DEBUG_$GCCVERS/FV/OVMF_VARS.fd $DEST
 		run_cmd cp -f Build/OvmfX64/DEBUG_$GCCVERS/FV/OVMF.fd $DEST
+		run_cmd cp -f Build/AmdSev/DEBUG_$GCCVERS/FV/OVMF.fd $DEST/DIRECT_BOOT_OVMF.fd
 
 		COMMIT=$(git log --format="%h" -1 HEAD)
 		run_cmd echo $COMMIT >../source-commit.ovmf
