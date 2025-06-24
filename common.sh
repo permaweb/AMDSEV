@@ -198,12 +198,13 @@ build_install_ovmf()
 		run_cmd make -C BaseTools clean
 		run_cmd make -C BaseTools -j $(getconf _NPROCESSORS_ONLN)
 		. ./edksetup.sh --reconfig
+		touch OvmfPkg/AmdSev/Grub/grub.efi
 		run_cmd $BUILD_CMD
 
 		mkdir -p $DEST
-		run_cmd cp -f Build/OvmfX64/DEBUG_$GCCVERS/FV/OVMF_CODE.fd $DEST
-		run_cmd cp -f Build/OvmfX64/DEBUG_$GCCVERS/FV/OVMF_VARS.fd $DEST
-		run_cmd cp -f Build/OvmfX64/DEBUG_$GCCVERS/FV/OVMF.fd $DEST
+		# run_cmd cp -f Build/OvmfX64/DEBUG_$GCCVERS/FV/OVMF_CODE.fd $DEST
+		# run_cmd cp -f Build/OvmfX64/DEBUG_$GCCVERS/FV/OVMF_VARS.fd $DEST
+		# run_cmd cp -f Build/OvmfX64/DEBUG_$GCCVERS/FV/OVMF.fd $DEST
 		run_cmd cp -f Build/AmdSev/DEBUG_$GCCVERS/FV/OVMF.fd $DEST/DIRECT_BOOT_OVMF.fd
 
 		COMMIT=$(git log --format="%h" -1 HEAD)
